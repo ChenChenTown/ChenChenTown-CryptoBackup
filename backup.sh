@@ -7,8 +7,8 @@ folders=(
     "/Users/eddiechen/Downloads"
 )
 
-# 定义U盘的挂载路径
-usb_path="/Volumes/ed-back-up"
+# 定义压缩文件保存路径
+backup_path="/Users/eddiechen/Backups"
 
 # 备份过程的日志文件
 log_file="/Users/eddiechen/backup.log"
@@ -18,7 +18,7 @@ date_time=$(date "+%Y-%m-%d_%H-%M-%S")
 
 # 压缩文件的目标路径
 archive_name="${date_time}.tar.zst"
-archive_path="${usb_path}/${archive_name}"
+archive_path="${backup_path}/${archive_name}"
 
 # 加密后的文件路径
 encrypted_archive_path="${archive_path}.enc"
@@ -41,10 +41,6 @@ for folder in "${folders[@]}"; do
     total_size=$((total_size + size))
 done
 
-# 增量备份
-echo "Starting incremental backup..." | tee -a "$log_file"
-rsync -av --delete "${folders[@]}" "$usb_path"
-
 # 压缩文件夹
 echo "Compressing folders..." | tee -a "$log_file"
 tar -cf - "${folders[@]}" | pv -s "$total_size" | zstd -T0 -19 -o "$archive_path"
@@ -56,7 +52,7 @@ if [ $? -eq 0 ]; then
 
     if [ $? -eq 0 ]; then
         echo "Backup completed successfully at $(date "+%Y-%m-%d_%H-%M-%S")" | tee -a "$log_file"
-        send_notification "Backup completed successfully. The encrypted compressed file is saved to the USB drive: $encrypted_archive_path"
+        send_notification "Backup completed successfully. The encrypted compressed file is saved to: $encrypted_archive_path"
         # 删除未加密的压缩文件
         rm "$archive_path"
     else
