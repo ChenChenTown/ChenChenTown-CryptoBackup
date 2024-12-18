@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 定义要压缩的文件夹路径
+# 定义要备份的文件夹路径
 folders=(
     "/Users/eddiechen/Desktop"
     "/Users/eddiechen/Documents"
@@ -17,7 +17,7 @@ log_file="/Users/eddiechen/backup.log"
 date_time=$(date "+%Y-%m-%d_%H-%M-%S")
 
 # 压缩文件的目标路径
-archive_name="${date_time}.tar.xz"
+archive_name="${date_time}.tar.zst"
 archive_path="${usb_path}/${archive_name}"
 
 # 加密后的文件路径
@@ -41,9 +41,13 @@ for folder in "${folders[@]}"; do
     total_size=$((total_size + size))
 done
 
+# 增量备份
+echo "Starting incremental backup..." | tee -a "$log_file"
+rsync -av --delete "${folders[@]}" "$usb_path"
+
 # 压缩文件夹
 echo "Compressing folders..." | tee -a "$log_file"
-tar -cf - "${folders[@]}" | pv -s "$total_size" | xz -9 --threads=0 > "$archive_path"
+tar -cf - "${folders[@]}" | pv -s "$total_size" | zstd -T0 -19 -o "$archive_path"
 
 if [ $? -eq 0 ]; then
     # 使用 openssl 加密压缩文件
