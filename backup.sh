@@ -48,7 +48,7 @@ tar -cf - "${folders[@]}" | pv -s "$total_size" | xz -9 --threads=0 > "$archive_
 if [ $? -eq 0 ]; then
     # 使用 openssl 加密压缩文件
     echo "Encrypting the compressed file..." | tee -a "$log_file"
-    openssl enc -aes-256-cbc -salt -in "$archive_path" -out "$encrypted_archive_path" -pass pass:"$encryption_password"
+    openssl enc -aes-256-cbc -salt -pbkdf2 -in "$archive_path" -out "$encrypted_archive_path" -pass pass:"$encryption_password"
 
     if [ $? -eq 0 ]; then
         echo "Backup completed successfully at $(date "+%Y-%m-%d_%H-%M-%S")" | tee -a "$log_file"
