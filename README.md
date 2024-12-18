@@ -12,6 +12,23 @@
 - `backup_notification.scpt`: 用于显示提醒通知并启动备份脚本的 AppleScript。
 - `com.user.backupreminder.plist`: 用于配置定时任务的 plist 文件。
 
+## 安装工具
+
+在开始之前，请确保已安装以下工具：
+
+1. **Homebrew**: macOS 上的包管理器（如果尚未安装）
+2. **pv**: 用于显示管道传输进度
+3. **zstd**: Zstandard 压缩工具
+4. **rsync**: 远程同步工具（通常已预安装在 macOS 上）
+
+### 安装 Homebrew
+
+如果尚未安装 Homebrew，请使用以下命令进行安装：
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
 ## 使用步骤
 
 ### 配置备份脚本
@@ -90,5 +107,4 @@
     ```
 
 - 将脚本路径替换为实际路径，例如 `/path/to/your/backup.sh`。
-
-通过这些步骤，你将能够每天自动弹出提醒通知，并通过点击按钮启动备份和加密过程。解密和解压缩步骤可以帮助你恢复备份文件。如果你有任何进一步的问题或需要更多帮助，请随时告诉我！ 😊
+  
