@@ -33,9 +33,9 @@
 
 使用 Homebrew 安装 `zstd`:
 
-    ```sh
+    `sh
     brew install zstd
-    ```
+    `
 
 ## 文件列表
 
