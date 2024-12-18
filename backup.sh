@@ -17,11 +17,11 @@ log_file="/Users/eddiechen/backup.log"
 date_time=$(date "+%Y-%m-%d_%H-%M-%S")
 
 # 压缩文件的目标路径
-archive_name="${date_time}.tar.zst"
+archive_name="${date_time}.tar"
 archive_path="${usb_path}/${archive_name}"
 
 # 加密后的文件路径
-encrypted_archive_path="${archive_path}.enc"
+encrypted_archive_path="${archive_path}.zst.enc"
 
 # 加密密码（可以根据需要更改此密码）
 encryption_password="your_password_here"
@@ -43,7 +43,7 @@ done
 
 # 压缩文件夹并直接保存到U盘
 echo "Compressing folders..." | tee -a "$log_file"
-tar -cf - "${folders[@]}" | pv -s "$total_size" | zstd -T0 -19 -o - | openssl enc -aes-256-cbc -salt -pbkdf2 -out "$encrypted_archive_path" -pass pass:"$encryption_password"
+tar -cf - "${folders[@]}" | pv -s "$total_size" | zstd -T0 -19 | openssl enc -aes-256-cbc -salt -pbkdf2 -out "$encrypted_archive_path" -pass pass:"$encryption_password"
 
 if [ $? -eq 0 ]; then
     echo "Backup completed successfully at $(date "+%Y-%m-%d_%H-%M-%S")" | tee -a "$log_file"
