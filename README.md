@@ -1,16 +1,8 @@
-# ChenChenTown-CryptoBackup
-
-### Mac only!!!
+# 备份和加密项目使用指南
 
 ## 项目概述
 
 此项目旨在通过压缩和加密用户指定的文件夹来创建备份，并将其保存到外部 USB 驱动器。该项目包括一个定时任务，每天在指定时间提醒用户进行备份。
-
-## 文件列表
-
-- `backup.sh`: 用于压缩和加密文件夹的备份脚本。
-- `backup_notification.scpt`: 用于显示提醒通知并启动备份脚本的 AppleScript。
-- `com.user.backupreminder.plist`: 用于配置定时任务的 plist 文件。
 
 ## 安装工具
 
@@ -25,9 +17,31 @@
 
 如果尚未安装 Homebrew，请使用以下命令进行安装：
 
-```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+    ```sh
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ```
+
+### 安装 pv
+
+使用 Homebrew 安装 `pv`:
+
+    ```sh
+    brew install pv
+    ```
+
+### 安装 zstd
+
+使用 Homebrew 安装 `zstd`:
+
+    ```sh
+    brew install zstd
+    ```
+
+## 文件列表
+
+- `backup.sh`: 用于压缩和加密文件夹的备份脚本。
+- `backup_notification.scpt`: 用于显示提醒通知并启动备份脚本的 AppleScript。
+- `com.user.backupreminder.plist`: 用于配置定时任务的 plist 文件。
 
 ## 使用步骤
 
@@ -107,4 +121,5 @@
     ```
 
 - 将脚本路径替换为实际路径，例如 `/path/to/your/backup.sh`。
-  
+
+通过这些步骤，你将能够每天自动弹出提醒通知，并通过点击按钮启动备份和加密过程。解密和解压缩步骤可以帮助你恢复备份文件。如果你有任何进一步的问题或需要更多帮助，请随时告诉我！ 😊
